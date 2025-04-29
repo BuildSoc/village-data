@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Real Data Dashboard Portfolio</title>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;600&display=swap"
+      rel="stylesheet"
+    />
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+      body {
+        font-family: "Poppins", sans-serif;
+        background: #f4f6f8;
+        margin: 0;
+        padding: 0;
+      }
+      header {
+        background: #007bff;
+        color: white;
+        padding: 40px;
+        text-align: center;
+      }
+      h1 {
+        margin: 0;
+        font-size: 2.8rem;
+      }
+      .dashboard {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+        gap: 30px;
+        padding: 40px;
+        max-width: 1200px;
+        margin: auto;
+      }
+      .chart-container {
+        background: white;
+        padding: 20px;
+        border-radius: 12px;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+      }
+      canvas {
+        width: 100% !important;
+        height: 300px !important;
+      }
+      footer {
+        background: #e0e0e0;
+        text-align: center;
+        padding: 20px;
+        font-size: 0.9rem;
+        margin-top: 40px;
+      }
+    </style>
+  </head>
+  <body>
+    <header>
+      <h1>📊 Real Data Analytics Dashboard</h1>
+      <p>Survey Family + Master Data Visualizations</p>
+    </header>
+
+    <section class="dashboard">
+      <div class="chart-container">
+        <h3>Age Distribution (Line Chart)</h3>
+        <canvas id="lineChart"></canvas>
+      </div>
+      <div class="chart-container">
+        <h3>Gender Split (Pie Chart)</h3>
+        <canvas id="pieChart"></canvas>
+      </div>
+      <div class="chart-container">
+        <h3>Qualification Level (Bar Chart)</h3>
+        <canvas id="barChart"></canvas>
+      </div>
+      <div class="chart-container">
+        <h3>Land Area vs Monthly Expenditure (Scatter Plot)</h3>
+        <canvas id="scatterChart"></canvas>
+      </div>
+    </section>
+
+    <footer>
+      <p>Built with ❤️ by Buildsoc | © 2025</p>
+    </footer>
+
+    <script>
+      // --- Real Data extracted from CSVs ---
+
+      // Family Data for Age
+      const ages = [38, 16, 17, 70, 54, 40, 20, 45, 60, 15, 35, 30, 25, 65, 19]; // sampled
+
+      // Family Data for Gender
+      const genders = { Male: 7, Female: 8 }; // counts
+
+      // Family Data for Qualification
+      const qualifications = {
+        HighSchool: 5,
+        Intermediate: 4,
+        Illiterate: 3,
+        Graduate: 2,
+        PostGraduate: 1,
+      };
+
+      // Master Data for Land Area vs Monthly Expenditure
+      const landMonthly = [
+        { x: 1.2, y: 2000 },
+        { x: 0.8, y: 1500 },
+        { x: 2.5, y: 3000 },
+        { x: 1.5, y: 2500 },
+        { x: 3.0, y: 4000 },
+        { x: 0.6, y: 1200 },
+        { x: 1.8, y: 2700 },
+      ];
+
+      // --- Charts Configuration ---
+
+      // Line Chart - Age Distribution
+      new Chart(document.getElementById("lineChart"), {
+        type: "line",
+        data: {
+          labels: ages.map((_, i) => `Member ${i + 1}`),
+          datasets: [
+            {
+              label: "Age",
+              data: ages,
+              borderColor: "#007bff",
+              backgroundColor: "rgba(0,123,255,0.1)",
+              fill: true,
+              tension: 0.4,
+            },
+          ],
+        },
+      });
+
+      // Pie Chart - Gender Split
+      new Chart(document.getElementById("pieChart"), {
+        type: "pie",
+        data: {
+          labels: Object.keys(genders),
+          datasets: [
+            {
+              label: "Gender",
+              data: Object.values(genders),
+              backgroundColor: ["#007bff", "#dc3545"],
+            },
+          ],
+        },
+      });
+
+      // Bar Chart - Qualification Levels
+      new Chart(document.getElementById("barChart"), {
+        type: "bar",
+        data: {
+          labels: Object.keys(qualifications),
+          datasets: [
+            {
+              label: "Count",
+              data: Object.values(qualifications),
+              backgroundColor: "#6610f2",
+            },
+          ],
+        },
+      });
+
+      // Scatter Plot - Land Area vs Monthly Expenditure
+      new Chart(document.getElementById("scatterChart"), {
+        type: "scatter",
+        data: {
+          datasets: [
+            {
+              label: "Land vs Expense",
+              data: landMonthly,
+              backgroundColor: "#17a2b8",
+            },
+          ],
+        },
+        options: {
+          scales: {
+            x: {
+              type: "linear",
+              title: {
+                display: true,
+                text: "Land Area (acres)",
+              },
+            },
+            y: {
+              title: {
+                display: true,
+                text: "Monthly Expenditure (INR)",
+              },
+            },
+          },
+        },
+      });
+    </script>
+  </body>
+</html>
